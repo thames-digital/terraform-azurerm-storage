@@ -11,17 +11,8 @@ locals {
     }, b)
   ]
 
-  containers = [
-    for c in var.containers : merge({
-      access_type = "private"
-    }, c)
-  ]
-
-  shares = [
-    for s in var.shares : merge({
-      quota = 5120
-    }, s)
-  ]
+  account_tier             = (var.kind == "FileStorage" ? "Premium" : split("_", var.sku)[0])
+  account_replication_type = (local.account_tier == "Premium" ? "LRS" : split("_", var.sku)[1])
 }
 
 data "azurerm_resource_group" "main" {
@@ -33,8 +24,8 @@ resource "azurerm_storage_account" "main" {
   resource_group_name       = data.azurerm_resource_group.main.name
   location                  = coalesce(var.location, data.azurerm_resource_group.main.location)
   account_kind              = var.kind
-  account_tier              = split("_", var.sku)[0]
-  account_replication_type  = split("_", var.sku)[1]
+  account_tier              = local.account_tier
+  account_replication_type  = local.account_replication_type
   access_tier               = var.access_tier
   enable_blob_encryption    = true
   enable_file_encryption    = true
@@ -46,11 +37,11 @@ resource "azurerm_storage_account" "main" {
 }
 
 resource "azurerm_storage_container" "main" {
-  count                 = length(local.containers)
-  name                  = local.containers[count.index].name
+  count                 = length(var.containers)
+  name                  = var.containers[count.index].name
   resource_group_name   = data.azurerm_resource_group.main.name
   storage_account_name  = azurerm_storage_account.main.name
-  container_access_type = local.containers[count.index].access_type
+  container_access_type = var.containers[count.index].access_type
 }
 
 resource "azurerm_storage_queue" "main" {
@@ -61,11 +52,11 @@ resource "azurerm_storage_queue" "main" {
 }
 
 resource "azurerm_storage_share" "main" {
-  count                = length(local.shares)
-  name                 = local.shares[count.index].name
+  count                = length(var.shares)
+  name                 = var.shares[count.index].name
   resource_group_name  = data.azurerm_resource_group.main.name
   storage_account_name = azurerm_storage_account.main.name
-  quota                = local.shares[count.index].quota
+  quota                = var.shares[count.index].quota
 }
 
 resource "azurerm_storage_table" "main" {

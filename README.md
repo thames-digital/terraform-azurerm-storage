@@ -17,15 +17,12 @@ module "storage" {
 
   resource_group_name = azurerm_resource_group.main.name
 
-  containers = [
-    { name = "example" }
-  ]
+  kind = "FileStorage"
 
-  blobs = [
+  shares = [
     {
-      container_name = "example"
-      name           = "index.html"
-      source_file    = "index.html"
+      name  = "example"
+      quota = 5120
     }
   ]
 }
@@ -51,16 +48,16 @@ The `blobs` object accepts the following keys:
 | `source_file` | `string` | Path to a local file. |
 | `source_uri` | `string` | URI to a remote file. |
 
-The `containers` object accepts the following keys:
+The `containers` object must have the following keys:
 
 | Name | Type | Description |
 | --- | --- | --- |
 | `name` | `string` | **Required**. The name of the container. |
 | `access_type` | `string` | Whether data in the container may be accessed publicly. The options are: `private`, `blob` and `container`. Default is: `private`. |
 
-The `shares` object accepts the following keys:
+The `shares` object must have the following keys:
 
 | Name | Type | Description |
 | --- | --- | --- |
 | `name` | `string` | **Required**. The name of the share. |
-| `quota` | `string` | The maximum size of the share in GB. Default: `5120`.  |
+| `quota` | `string` | The maximum size of the share in GB. |
