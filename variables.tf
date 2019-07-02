@@ -51,7 +51,10 @@ variable "blobs" {
 }
 
 variable "containers" {
-  type        = list(any)
+  type = list(object({
+    name        = string
+    access_type = string
+  }))
   default     = []
   description = "List of storage containers."
 }
@@ -63,7 +66,10 @@ variable "queues" {
 }
 
 variable "shares" {
-  type        = list(any)
+  type = list(object({
+    name  = string
+    quota = number
+  }))
   default     = []
   description = "List of storage shares."
 }
