@@ -52,12 +52,12 @@ The `containers` object must have the following keys:
 
 | Name | Type | Description |
 | --- | --- | --- |
-| `name` | `string` | **Required**. The name of the container. |
-| `access_type` | `string` | Whether data in the container may be accessed publicly. The options are: `private`, `blob` and `container`. Default is: `private`. |
+| `name` | `string` | The name of the container. |
+| `access_type` | `string` | Whether data in the container may be accessed publicly. The options are: `private`, `blob` and `container`. |
 
 The `shares` object must have the following keys:
 
 | Name | Type | Description |
 | --- | --- | --- |
-| `name` | `string` | **Required**. The name of the share. |
+| `name` | `string` | The name of the share. |
 | `quota` | `string` | The maximum size of the share in GB. |
