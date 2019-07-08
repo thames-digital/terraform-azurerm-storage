@@ -30,6 +30,7 @@ resource "azurerm_storage_account" "main" {
   enable_blob_encryption    = true
   enable_file_encryption    = true
   enable_https_traffic_only = var.https_only
+  tags                      = var.tags
 
   identity {
     type = var.assign_identity ? "SystemAssigned" : null

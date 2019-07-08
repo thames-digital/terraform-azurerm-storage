@@ -79,3 +79,8 @@ variable "tables" {
   default     = []
   description = "List of storage tables."
 }
+
+variable "tags" {
+  type    = "map"
+  default = {}
+}
