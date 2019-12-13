@@ -38,6 +38,12 @@ variable "https_only" {
   description = "Set to `true` to only allow HTTPS traffic, or `false` to disable it."
 }
 
+variable "network_rules" {
+  description = "Network rules restricing access to the storage account."
+  type        = object({ ip_rules = list(string), subnet_ids = list(string), bypass = list(string) })
+  default     = null
+}
+
 variable "assign_identity" {
   type        = bool
   default     = true

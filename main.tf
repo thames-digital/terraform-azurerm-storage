@@ -32,6 +32,16 @@ resource "azurerm_storage_account" "main" {
   enable_https_traffic_only = var.https_only
   tags                      = var.tags
 
+  dynamic "network_rules" {
+    for_each = var.network_rules != null ? ["true"] : []
+    content {
+      default_action             = "Deny"
+      ip_rules                   = var.network_rules.ip_rules
+      virtual_network_subnet_ids = var.network_rules.subnet_ids
+      bypass                     = var.network_rules.bypass
+    }
+  }
+
   identity {
     type = var.assign_identity ? "SystemAssigned" : null
   }

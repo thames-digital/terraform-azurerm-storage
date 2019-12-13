@@ -35,9 +35,17 @@ module "storage" {
 | `name` | `string` | The name of the storage account. |
 | `resource_group_name` | `string` | The name of an existing resource group. |
 | `sku` | `string` | The SKU of the storage account. Default: `Standard_RAGRS`. |
+| `network_rules` | `object` | List of network rules. Default: null |
 | `blobs` | `list` | List of blobs. |
 | `containers` | `list` | List of containers. |
 | `shares` | `list` | List of shares. |
+
+The `network_rules` object accepts the following keys:
+| Name | Type | Description |
+| --- | --- | --- |
+| `ip_rules` | `list` | List of public IP or IP ranges in CIDR Format. |
+| `subnet_ids` | `list` | A list of resource ids for subnets. |
+| `bypass` | `list` | Specifies whether traffic is bypassed for Logging/Metrics/AzureServices. |
 
 The `blobs` object accepts the following keys:
 
